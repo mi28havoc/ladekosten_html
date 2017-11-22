@@ -1,178 +1,158 @@
-<!DOCTYPE html>
-<!-- saved from url=(0031)http://ladekosten.mi28havoc.de/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Ladekosten</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>Ladekosten Alpha 1</title> 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <!-- Own CSS -->
+    <link rel="stylesheet" href="css/style.css">
 
-<script language="JavaScript"> 
-<!-- 
- 
-function calc(){ 
+    <!-- import calc.js -->
+    <script src="js/calc.js"></script>
 
- price_start = Number( document.Berechnen.price_start.value ); 
- price_minute = Number( document.Berechnen.price_minute.value ); 
- price_kwh = Number( document.Berechnen.price_kwh.value ); 
- 
- power = Number( document.Berechnen.power.value ); 
- time = Number( document.Berechnen.time.value ); 
+</head>
+<body onload="calc()">
+<div class="container">
+    <div class="row">
+        <div class="offset-md-1 col-md-10">
+            <div class="jumbotron text-center">
+                <h1 class="display-3">Ladekosten-Rechner</h1>
+                <p class="lead">Ein simples Tool, um die Kosten für die Ladung eines Elektromobils zu berechnen.</p>
+                <hr class="mt-4 mb-0">
+            </div>
+        </div>
+    </div>
 
- document.getElementById("quantity_complete").value = Number( power * ( time / 60 ) ).toFixed(1);
- document.getElementById("cost_complete").value = Number( price_start + ( time * price_minute ) + ( power * ( time / 60 ) * price_kwh ) ).toFixed(2);
- document.getElementById("cost_kwh").value = Number( ( ( price_minute / power ) * 60 ) + ( price_start / ( power * ( time / 60 ) ) ) + price_kwh ).toFixed(2);
- 
- capacity = Number( document.Berechnen.capacity.value );
- consumption = Number( document.Berechnen.consumption.value );
- 
- document.getElementById("cost_80").value = Number( document.getElementById("cost_kwh").value * ( capacity * 0.8 ) ).toFixed(2);
- document.getElementById("cost_100").value = Number( document.getElementById("cost_kwh").value * capacity ).toFixed(2);
- document.getElementById("cost_100km").value = Number( document.getElementById("cost_kwh").value * consumption ).toFixed(2);
- 
-} 
- 
-// --> 
-</script> 
- 
- <style>
- form {
-	width: 100%;
-	padding-top: 3em;
-}
+    <form method="POST" action="http://ladekosten.mi28havoc.de/" name="Berechnen">
+        <div class="row">
+            <div class="offset-md-2 col-md-8">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="price_start">Startgebühr</label>
+                        <div class="input-group">
+                            <input name="price_start" type="number" min="0" max="100" step="0.1" value="0" onchange="calc()" class="form-control"/>
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
 
-input,
-label {
-	float: left;
-	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
+                    <div class="col-md-4">
+                        <label for="price_minute">Preis pro Minute</label>
+                        <div class="input-group">
+                            <input name="price_minute" type="number" min="0" max="100" step="0.1" value="0" onchange="calc()" class="form-control"/>
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
 
-input {
-	margin: 0 .5em .2em .5em;
-	padding: .2em .5em;
-	width: 6em;
-	background-color: #fffbf0;
-	border: 1px solid #e7c157;
-}
+                    <div class="col-md-4">
+                        <label for="price_kwh">Preis pro kWh</label>
+                        <div class="input-group">
+                            <input name="price_kwh" type="number" min="0" max="100" step="0.1" value="0" onchange="calc()" class="form-control"/>
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+                </div>
 
-input.readonly {
-	background-color: #b0fc53;
-	border: 1px solid #356000;
-}
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="power">Ladeleistung</label>
+                        <div class="input-group">
+                            <input name="power" type="number" min="1" max="100" step="0.1" value="3.7" onchange="calc()" class="form-control">
+                            <span class="input-group-addon">kW</span>
+                        </div>
+                    </div>
 
-label {
-	text-align: right;
-	line-height: 1.5;
-	width: 100%;
-}
+                    <div class="col-md-6">
+                        <label for="time">Ladezeit</label>
+                        <div class="input-group">
+                            <input name="time" type="number" min="1" max="600" step="1" value="180" onchange="calc()" class="form-control"/>
+                            <span class="input-group-addon">min</span>
+                        </div>
+                    </div>
+                </div>
 
-label.unit {
-	text-align: left;
-}
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="quantity_complete">Lademenge</label>
+                        <div class="input-group">
+                            <input name="quantity_complete" type="text" id="quantity_complete" readonly="readonly" class="form-control" />
+                            <span class="input-group-addon">kWh</span>
+                        </div>
+                    </div>
 
-button {
-	margin-left: 100%;
-}
+                    <div class="col-md-4">
+                        <label for="cost_complete">Ladekosten</label>
+                        <div class="input-group">
+                            <input name="cost_complete" type="text" id="cost_complete" readonly="readonly" class="form-control"/>
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
 
- </style>
- 
-<style>@media print {#ghostery-purple-box {display:none !important}}</style></head> 
-<body data-feedly-mini="yes"> 
- 
-<form method="POST" action="http://ladekosten.mi28havoc.de/" name="Berechnen"> 
-	<div align="center"> 
-	<table border="0" id="table1" cellspacing="1"> 
+                    <div class="col-md-4">
+                        <label for="cost_kwh">Kosten pro kWh</label>
+                        <div class="input-group">
+                            <input name="cost_kwh" type="text" id="cost_kwh" readonly="readonly" class="form-control">
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+                </div>
 
-		<tbody><tr> 
-			<td><label for="price_start">Startgebühr</label></td> 
-			<td><input name="price_start" type="number" min="0" max="100" step="0.1" value="0" onchange="calc()"></td>
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr> 
-		<tr>
-			<td><label for="price_minute">Preis pro Minute</label></td> 
-			<td><input name="price_minute" type="number" min="0" max="100" step="0.1" value="0" onchange="calc()"></td>
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-		<tr>
-			<td><label for="price_kwh">Preis pro KWh</label></td> 
-			<td><input name="price_kwh" type="number" min="0" max="100" step="0.1" value="0" onchange="calc()"></td>
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
-		</tr>
-		<tr>
-			<td><label for="power">Ladeleistung</label></td> 
-			<td><input name="power" type="number" min="1" max="100" step="0.1" value="3.7" onchange="calc()"></td>
-			<td><label for="price_start" class="unit">KW</label></td>
-		</tr>
-		<tr>
-			<td><label for="time">Ladezeit</label></td> 
-			<td><input name="time" type="number" min="1" max="600" step="1" value="180" onchange="calc()"></td>
-			<td><label for="price_start" class="unit">min</label></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
-		</tr>
-		<tr>
-			<td><label for="quantity_complete">Lademenge</label></td> 
-			<td><input type="text" id="quantity_complete" readonly="readonly" class="readonly"></td>
-			<td><label for="price_start" class="unit">KWh</label></td>
-		</tr>
-		<tr>
-			<td><label for="cost_complete">Ladekosten</label></td> 
-			<td><input type="text" id="cost_complete" readonly="readonly" class="readonly"></td>
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-		<tr>
-			<td><label for="cost_kwh">Kosten pro KWh</label></td> 
-			<td><input type="text" id="cost_kwh" readonly="readonly" class="readonly"></td> 
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
-		</tr>
-		<tr>
-			<td><label for="capacity">Akkukapazität</label></td> 
-			<td><input name="capacity" type="number" min="1" max="100" step="0.1" value="17.6" onchange="calc()"></td> 
-			<td><label for="price_start" class="unit">KWh</label></td>
-		</tr>
-		<tr>
-			<td><label for="consumption">Stromverbrauch pro&nbsp;100km</label></td> 
-			<td><input name="consumption" type="number" min="1" max="30" step="0.1" value="13.1" onchange="calc()"></td>
-			<td><label for="price_start" class="unit">KWh</label></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
-		</tr>
-		<tr>
-			<td><label for="cost_80">Kosten pro 80% Ladung</label></td> 
-			<td><input type="text" id="cost_80" readonly="readonly" class="readonly"></td> 
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-		<tr>
-			<td><label for="cost_100">Kosten pro 100% Ladung</label></td> 
-			<td><input type="text" id="cost_100" readonly="readonly" class="readonly"></td> 
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-		<tr>
-			<td><label for="cost_100km">Kosten pro 100km</label></td> 
-			<td><input type="text" id="cost_100km" readonly="readonly" class="readonly"></td> 
-			<td><label for="price_start" class="unit">€</label></td>
-		</tr>
-<!-- 		<tr>
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
-		</tr>
-		<tr>
-			<td>&nbsp;</td> 
-			<td><input type="button" value="Berechnen" onclick="calc()"></td>
-		</tr> -->
-	</tbody></table> 
-	
-	</div> 
-</form> 
- 
- 
- <span id="sbmarwbthv5"></span><div id="feedly-mini" title="feedly Mini tookit"></div></body></html>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="capacity">Akku-Kapazität</label>
+                        <div class="input-group">
+                            <input name="capacity" type="number" min="1" max="100" step="0.1" value="17.6" onchange="calc()" class="form-control">
+                            <span class="input-group-addon">kWh</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="consumption">Stromverbrauch pro 100km</label>
+                        <div class="input-group">
+                            <input name="consumption" type="number" min="1" max="30" step="0.1" value="13.1" onchange="calc()" class="form-control">
+                            <span class="input-group-addon">kWh</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="cost_80">Kosten pro Ladung (80%)</label>
+                        <div class="input-group">
+                            <input name="cost_80" type="text" id="cost_80" readonly="readonly" class="form-control"/>
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="cost_complete">Kosten pro Ladung (100%)</label>
+                        <div class="input-group">
+                            <input name="cost_100" type="text" id="cost_100" readonly="readonly" class="form-control">
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="cost_100km">Kosten pro 100km</label>
+                        <div class="input-group">
+                            <input name="cost_100km" type="text" id="cost_100km" readonly="readonly" class="form-control">
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row mt-5">
+        <div class="text-center offset-md-1 col-md-10">
+            <hr class="my-4">
+            <p>(c) 2017 <a href="http://www.mi28havoc.de/">mi28havoc.de</a></p>
+        </div>
+    </div>    
+</div>
+</body>
+</html>
